@@ -43,6 +43,8 @@ if (!class_exists('MV_Slider')) {
             $this->define_constants();
             $this->include_files();
 
+            add_action( 'admin_menu', array( $this, 'add_menu' ) );
+
             $MV_Slider_Post_Type = new MV_Slider_Post_Type();
         }
 
@@ -72,6 +74,33 @@ if (!class_exists('MV_Slider')) {
         public static function uninstall()
         {
             // Clean up database, remove options, etc.
+        }
+
+        public function add_menu(){
+            /* 
+            * This function add_menu_page() can be changed to others like:
+            * add_submenu_page() -> To add a submenu page
+            * add_dashboard_page() -> To add a dashboard page
+            * add_posts_page() -> To add a posts page
+            * add_media_page() -> To add a media page
+            * add_links_page() -> To add a links page
+            * add_pages_page() -> To add a pages page
+            * add_comments_page() -> To add a comments page
+            * add_theme_page() -> To add a theme page.
+            * add_options_page() -> To add an options page (settings). Etc.
+            */
+            add_menu_page(
+                'MV Slider Options',
+                'MV Slider',
+                'manage_options',
+                'mv_slider_admin',
+                array( $this, 'mv_slider_settings_page' ),
+                'dashicons-images-alt2',
+
+            );
+        }
+        public function mv_slider_settings_page(){
+            echo "This is the MV Slider settings page";
         }
     }
 }
