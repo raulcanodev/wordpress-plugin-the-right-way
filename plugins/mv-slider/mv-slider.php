@@ -41,11 +41,13 @@ if (!class_exists('MV_Slider')) {
         function __construct()
         {
             $this->define_constants();
-            $this->include_files();
+            $this->include_files(); 
 
             add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
             $MV_Slider_Post_Type = new MV_Slider_Post_Type();
+
+            $MV_Slider_Settings = new MV_Slider_Settings();
         }
 
         public function define_constants()
@@ -58,6 +60,7 @@ if (!class_exists('MV_Slider')) {
         public function include_files()
         {
             require_once MV_SLIDER_PATH . 'post-types/class.mv-slider-cpt.php';
+            require_once MV_SLIDER_PATH . 'class.mv-slider-settings.php';
         }
 
         public static function activate()
@@ -90,17 +93,34 @@ if (!class_exists('MV_Slider')) {
             * add_options_page() -> To add an options page (settings). Etc.
             */
             add_menu_page(
-                'MV Slider Options',
-                'MV Slider',
-                'manage_options',
-                'mv_slider_admin',
-                array( $this, 'mv_slider_settings_page' ),
+                'MV Slider Options', // The text that will be displayed in the browser title
+                'MV Slider', // The text that will be displayed in the menu
+                'manage_options', // The capability required to see this menu
+                'mv_slider_admin', // The slug of the menu
+                array( $this, 'mv_slider_settings_page' ), // The function that will be called to display the page
                 'dashicons-images-alt2',
-
+            );
+            add_submenu_page(
+                'mv_slider_admin', // The slug of the parent menu
+                'Manage Slides', // The text that will be displayed in the browser title
+                'Manage Slides', // The text that will be displayed in the browser title
+                'manage_options', // The capability required to see this menu
+                '/edit.php?post_type=mv-slider', // The slug of the menu
+                null, // The function that will be called to display the page
+                null // The position of the menu -> null will be placed at the bottom
+            );
+            add_submenu_page(
+                'mv_slider_admin',
+                'Add New Slide',
+                'Add New Slide',
+                'manage_options',
+                '/post-new.php?post_type=mv-slider',
+                null,
+                null
             );
         }
         public function mv_slider_settings_page(){
-            echo "This is the MV Slider settings page";
+            require ( MV_SLIDER_PATH . 'views/settings-page.php' );
         }
     }
 }

@@ -15,31 +15,31 @@ if( !class_exists( 'MV_Slider_Post_Type') ){
             register_post_type(
                 'mv-slider',
                 array(
-                    'label' => 'Slider',
-                    'description'   => 'Sliders',
-                    'labels' => array(
-                        'name'  => 'Sliders',
+                    'label'       => 'Slider',
+                    'description' => 'Sliders',
+                    'labels'      => array(
+                        'name'          => 'Sliders',
                         'singular_name' => 'Slider'
                     ),
-                    'public'    => true,
-                    'supports'  => array( 'title', 'editor', 'thumbnail' ),
-                    'hierarchical'  => false,
-                    'show_ui'   => true,
-                    'show_in_menu'  => true,
-                    'menu_position' => 5,
-                    'show_in_admin_bar' => true,
-                    'show_in_nav_menus' => true,
-                    'can_export'    => true,
-                    'has_archive'   => false,
-                    'exclude_from_search'   => false,
-                    'publicly_queryable'    => true,
-                    'show_in_rest'  => true,
-                    'menu_icon' => 'dashicons-images-alt2',
+                    'public'              => true,
+                    'supports'            => array( 'title', 'editor', 'thumbnail' ),
+                    'hierarchical'        => false,
+                    'show_ui'             => true,
+                    'show_in_menu'        => false, // To show in the menu, change to true 
+                    'menu_position'       => 5,
+                    'show_in_admin_bar'   => true,
+                    'show_in_nav_menus'   => true,
+                    'can_export'          => true,
+                    'has_archive'         => false,
+                    'exclude_from_search' => false,
+                    'publicly_queryable'  => true,
+                    'show_in_rest'        => true,
+                    'menu_icon'           => 'dashicons-images-alt2',
                     //'register_meta_box_cb'  =>  array( $this, 'add_meta_boxes' )
                 )
             );
         }
-				
+
         public function mv_slider_cpt_columns( $columns ){
             $columns['mv_slider_link_text'] = esc_html__( 'Link Text', 'mv-slider' );
             $columns['mv_slider_link_url'] = esc_html__( 'Link URL', 'mv-slider' );
