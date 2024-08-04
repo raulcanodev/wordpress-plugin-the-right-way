@@ -48,6 +48,8 @@ if (!class_exists('MV_Slider')) {
             $MV_Slider_Post_Type = new MV_Slider_Post_Type();
 
             $MV_Slider_Settings = new MV_Slider_Settings();
+
+            $MV_Slider_Shortcode = new MV_Slider_Shortcode();
         }
 
         public function define_constants()
