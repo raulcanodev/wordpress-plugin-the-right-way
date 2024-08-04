@@ -61,6 +61,7 @@ if (!class_exists('MV_Slider')) {
         {
             require_once MV_SLIDER_PATH . 'post-types/class.mv-slider-cpt.php';
             require_once MV_SLIDER_PATH . 'class.mv-slider-settings.php';
+            require_once MV_SLIDER_PATH . 'shortcodes/class.mv-slider-shortcode.php';
         }
 
         public static function activate()
@@ -120,6 +121,13 @@ if (!class_exists('MV_Slider')) {
             );
         }
         public function mv_slider_settings_page(){
+            if ( ! current_user_can( 'manage_options' ) ) {
+                return;
+            }
+            if ( isset( $_GET['settings-updated'] ) ){
+                add_settings_error( 'mv_slider_options', 'mv_slider_message', 'Settings saved', 'success' );
+            }
+            settings_errors( 'mv_slider_options' );
             require ( MV_SLIDER_PATH . 'views/settings-page.php' );
         }
     }
