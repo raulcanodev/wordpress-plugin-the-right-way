@@ -134,6 +134,7 @@ if (!class_exists('MV_Slider')) {
             settings_errors( 'mv_slider_options' );
             require ( MV_SLIDER_PATH . 'views/settings-page.php' );
         }
+        
         public function register_scripts(){
             wp_register_script( 'mv-slider-main-jq', MV_SLIDER_URL . 'vendor/flexslider/jquery.flexslider-min.js', array( 'jquery' ), MV_SLIDER_VERSION, true );
             wp_register_script( 'mv-slider-options-js', MV_SLIDER_URL . 'vendor/flexslider/flexslider.js', array( 'jquery' ), MV_SLIDER_VERSION, true );
