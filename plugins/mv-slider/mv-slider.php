@@ -41,7 +41,8 @@ if (!class_exists('MV_Slider')) {
         function __construct()
         {
             $this->define_constants();
-            $this->include_files(); 
+            $this->include_files();
+            $this->load_textdomain();
 
             add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
@@ -83,7 +84,21 @@ if (!class_exists('MV_Slider')) {
 
         public static function uninstall()
         {
-            // Clean up database, remove options, etc.
+            delete_option('mv_slider_options');
+
+            $posts = get_posts(array('post_type' => 'mv-slider', 'numberposts' => -1));
+
+            foreach ($posts as $post) {
+                wp_delete_post($post->ID, true);
+            }
+        }
+
+        public static function load_textdomain(){
+            load_plugin_textdomain( 
+                'mv-slider',
+                false,
+                dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+            );
         }
 
         public function add_menu(){
@@ -100,8 +115,8 @@ if (!class_exists('MV_Slider')) {
             * add_options_page() -> To add an options page (settings). Etc.
             */
             add_menu_page(
-                'MV Slider Options', // The text that will be displayed in the browser title
-                'MV Slider', // The text that will be displayed in the menu
+                esc_html__('MV Slider Options', 'mv-slider'), // The text that will be displayed in the browser title
+                esc_html__('MV Slider', 'mv-slider'), // The text that will be displayed in the menu
                 'manage_options', // The capability required to see this menu
                 'mv_slider_admin', // The slug of the menu
                 array( $this, 'mv_slider_settings_page' ), // The function that will be called to display the page
@@ -109,8 +124,8 @@ if (!class_exists('MV_Slider')) {
             );
             add_submenu_page(
                 'mv_slider_admin', // The slug of the parent menu
-                'Manage Slides', // The text that will be displayed in the browser title
-                'Manage Slides', // The text that will be displayed in the browser title
+                esc_html__('Manage Slides', 'mv-slider'), // The text that will be displayed in the browser title
+                esc_html__('Manage Slides', 'mv-slider'), // The text that will be displayed in the browser title
                 'manage_options', // The capability required to see this menu
                 '/edit.php?post_type=mv-slider', // The slug of the menu
                 null, // The function that will be called to display the page
@@ -118,8 +133,8 @@ if (!class_exists('MV_Slider')) {
             );
             add_submenu_page(
                 'mv_slider_admin',
-                'Add New Slide',
-                'Add New Slide',
+                esc_html__('Add New Slide', 'mv-slider'),
+                esc_html__('Add New Slide', 'mv-slider'),
                 'manage_options',
                 '/post-new.php?post_type=mv-slider',
                 null,

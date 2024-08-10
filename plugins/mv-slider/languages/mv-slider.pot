@@ -1,0 +1,127 @@
+# Copyright (C) 2024 Raul
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: MV Slider 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mv-slider\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-08-09T21:38:37+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: mv-slider\n"
+
+#. Plugin Name of the plugin
+#: mv-slider.php
+#: mv-slider.php:113
+msgid "MV Slider"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: mv-slider.php
+msgid "https://www.raulcano.dev"
+msgstr ""
+
+#. Description of the plugin
+#: mv-slider.php
+msgid "MV Slider is a simple and easy to use plugin that allows you to create stunning sliders in no time."
+msgstr ""
+
+#. Author of the plugin
+#: mv-slider.php
+msgid "Raul"
+msgstr ""
+
+#: class.mv-slider-settings.php:18
+msgid "How does it work?"
+msgstr ""
+
+#: class.mv-slider-settings.php:25
+msgid "Other Plugin Options"
+msgstr ""
+
+#: class.mv-slider-settings.php:32
+msgid "Shortcode"
+msgstr ""
+
+#: class.mv-slider-settings.php:40
+msgid "Slider Title"
+msgstr ""
+
+#: class.mv-slider-settings.php:48
+msgid "Display Bullets"
+msgstr ""
+
+#: class.mv-slider-settings.php:56
+msgid "Slider Style"
+msgstr ""
+
+#: class.mv-slider-settings.php:66
+msgid "Use the shortcode [mv_slider] to display the slider in any page/post/widget"
+msgstr ""
+
+#: class.mv-slider-settings.php:94
+msgid "Wheter to display bullets or not"
+msgstr ""
+
+#: class.mv-slider-settings.php:129
+msgid "Please enter a title"
+msgstr ""
+
+#: mv-slider.php:112
+msgid "MV Slider Options"
+msgstr ""
+
+#: mv-slider.php:121
+#: mv-slider.php:122
+msgid "Manage Slides"
+msgstr ""
+
+#: mv-slider.php:130
+#: mv-slider.php:131
+msgid "Add New Slide"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:18
+#: post-types/class.mv-slider-cpt.php:22
+msgid "Slider"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:19
+#: post-types/class.mv-slider-cpt.php:21
+msgid "Sliders"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:44
+#: views/mv-slider_metabox.php:10
+msgid "Link Text"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:45
+#: views/mv-slider_metabox.php:25
+msgid "Link URL"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:68
+msgid "Link Options"
+msgstr ""
+
+#: post-types/class.mv-slider-cpt.php:106
+msgid "Add some text"
+msgstr ""
+
+#: views/settings-page.php:7
+msgid "Main Options"
+msgstr ""
+
+#: views/settings-page.php:8
+msgid "Additional Options"
+msgstr ""
+
+#: views/settings-page.php:18
+msgid "Save Settings"
+msgstr ""
