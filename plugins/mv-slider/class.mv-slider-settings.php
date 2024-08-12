@@ -120,7 +120,7 @@ if ( ! class_exists('MV_Slider_Settings' ) ){
     }
 
     public function mv_slider_validate( $input ){
-      $new_input = array ();
+      $new_input = get_option("mv_slider_options");
       foreach( $input as $key => $value ){
         switch ($key){
           case 'mv_slider_title':

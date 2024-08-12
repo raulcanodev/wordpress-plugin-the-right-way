@@ -1,13 +1,17 @@
-<?php
-
+<?php 
+// $wpdb is a global variable that WordPress uses to interact with a database.
 global $wpdb;
+
+// Query to get all the meta data for the current post
 $query = $wpdb->prepare( 
-    "SELECT * FROM $wpdb->translationmeta
-    WHERE translation_id = %d",
-    $post->ID
+  "SELECT * FROM $wpdb->translationmeta
+  WHERE translation_id = %d",
+  $post->ID
 );
 $results = $wpdb->get_results( $query, ARRAY_A );
+
 ?>
+
 <table class="form-table mv-translations-metabox"> 
     <!-- Nonce -->
     <input type="hidden" name="mv_translations_nonce" value="<?php echo wp_create_nonce( 'mv_translations_nonce' ); ?>">
