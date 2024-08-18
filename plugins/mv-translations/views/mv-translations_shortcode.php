@@ -1,5 +1,19 @@
 
 <?php
+if( ! is_user_logged_in()){
+    mvt_register_user();
+    return;
+}
+
+if( isset( $_POST['mv_translations_nonce'] ) ){
+    if( ! wp_verify_nonce( $_POST['mv_translations_nonce'], 'mv_translations_nonce' ) ){
+        return;
+    }
+}
+
+$errors   = array();
+$hasError = false;
+
 if( isset( $_POST['submitted'] ) ){
     $title           = $_POST['mv_translations_title'];
     $content         = $_POST['mv_translations_content'];
@@ -7,20 +21,38 @@ if( isset( $_POST['submitted'] ) ){
     $transliteration = $_POST['mv_translations_transliteration'];
     $video           = $_POST['mv_translations_video_url'];
 
-    $post_info = array(
-      'post_type'    => 'mv-translations',
-      'post_title'   => $title,
-      'post_content' => $content,
-      'tax_input'    => array(
-        'singer' => $singer
-      ),
-      'post_status' => 'pending'
-    );
+    // Checl if the fields are empty
+    if( trim( $title ) === '' ){
+        $errors[] = esc_html__( 'Please enter a title.', 'mv-translations' );
+        $hasError = true;
+    }
 
-    $post_id = wp_insert_post( $post_info );
+    if( trim( $content ) === '' ){
+        $errors[] = esc_html__( 'Please enter a content.', 'mv-translations' );
+        $hasError = true;
+    }
 
-    global $post;
-    MV_Translations_Post_Type::save_post( $post_id, $post );
+    if( trim( $singer ) === '' ){
+        $errors[] = esc_html__( 'Please enter a singer.', 'mv-translations' );
+        $hasError = true;
+    }
+
+    if( $hasError === false ){
+        $post_info = array(
+            'post_type'    => 'mv-translations',
+            'post_title'   => sanitize_text_field($title),
+            'post_content' => wp_kses_post( $content ), // wp_kses_post() is used to sanitize the content
+            'tax_input'    => array(
+              'singer' => sanitize_text_field( $singer )
+            ),
+            'post_status' => 'pending'
+          );
+      
+          $post_id = wp_insert_post( $post_info );
+      
+          global $post;
+          MV_Translations_Post_Type::save_post( $post_id, $post );
+    }
 }
 
 
@@ -29,22 +61,40 @@ if( isset( $_POST['submitted'] ) ){
 <div class="mv-translations">
     <form action="" method="POST" id="translations-form">
         <h2><?php esc_html_e( 'Submit new translation' , 'mv-translations' ); ?></h2>
+
+        <?php 
+            if( $errors ){
+                foreach( $errors as $error ){
+                    ?>
+                    <div class="error">
+                        <p><?php echo $error; ?></p>
+                    </div>
+                    <?php
+                }
+            }
+        ?>
         
         <label for="mv_translations_title"><?php esc_html_e( 'Title', 'mv-translations' ); ?> *</label>
-        <input type="text" name="mv_translations_title" id="mv_translations_title" value="" required />
+        <input type="text" name="mv_translations_title" id="mv_translations_title" value="<?php if( isset( $title ) ) echo $title; ?>" required />
         <br />
         <label for="mv_translations_singer"><?php esc_html_e( 'Singer', 'mv-translations' ); ?> *</label>
-        <input type="text" name="mv_translations_singer" id="mv_translations_singer" value="" required />
+        <input type="text" name="mv_translations_singer" id="mv_translations_singer" value="<?php if( isset( $singer ) ) echo $singer; ?>" required />
 
         <br />
-        <?php wp_editor( '', 'mv_translations_content', array( 'wpautop' => true, 'media_buttons' => false ) ); ?>
+        <?php 
+        if( isset( $content ) ){
+            wp_editor( $content, 'mv_translations_content', array( 'wpautop' => true, 'media_buttons' => false ) );
+        }else{
+            wp_editor( '', 'mv_translations_content', array( 'wpautop' => true, 'media_buttons' => false ) );
+        } 
+        ?>
         </br />
         
         <fieldset id="additional-fields">
             <label for="mv_translations_transliteration"><?php esc_html_e( 'Has transliteration?', 'mv-translations' ); ?></label>
             <select name="mv_translations_transliteration" id="mv_translations_transliteration">
-                <option value="Yes"><?php esc_html_e( 'Yes', 'mv-translations' ); ?></option>
-                <option value="No"><?php esc_html_e( 'No', 'mv-translations' ); ?></option>
+                <option value="<?php if( isset( $transliteration ) ) selected( $transliteration, "Yes" ) ?>"><?php esc_html_e( 'Yes', 'mv-translations' ); ?></option>
+                <option value="<?php if( isset( $transliteration ) ) selected( $transliteration, "No" ) ?>"><?php esc_html_e( 'No', 'mv-translations' ); ?></option>
             </select>
             <label for="mv_translations_video_url"><?php esc_html_e( 'Video URL', 'mv-translations' ); ?></label>
             <input type="url" name="mv_translations_video_url" id="mv_translations_video_url" value="" />
@@ -58,6 +108,22 @@ if( isset( $_POST['submitted'] ) ){
     </form>
 </div>
 <div class="translations-list">
+    <?php
+        global $current_user; 
+        global $wpdb;
+        $q = $wpdb->prepare(
+            "SELECT ID, post_author, post_date, post_title, post_status, meta_key, meta_value
+            FROM $wpdb->posts AS p
+            INNER JOIN $wpdb->translationmeta AS tm
+            ON p.ID = tm.translation_id
+            WHERE p.post_author = %d
+            AND tm.meta_key = 'mv_translations_transliteration'
+            AND p.post.status IN ( 'publish', 'pending' )
+            ",
+            $current_user->ID
+        );
+        $results = $wpdb->get_results( $q );
+    ?>
             <table>
                 <caption><?php esc_html_e( 'Your Translations', 'mv-translations' ); ?></caption>
                 <thead>
