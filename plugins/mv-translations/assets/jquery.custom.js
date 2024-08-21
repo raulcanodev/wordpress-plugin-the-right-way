@@ -1,3 +1,3 @@
-jQuery(document).ready(function() {
-    jQuery('#translations-form').validate()
+jQuery(document).ready(function(){
+    jQuery("#translations-form").validate();
 });

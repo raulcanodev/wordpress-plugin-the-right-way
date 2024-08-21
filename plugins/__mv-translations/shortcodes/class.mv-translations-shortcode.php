@@ -6,13 +6,12 @@ if( ! class_exists('MV_Translations_Shortcode')){
             add_shortcode( 'mv_translations', array( $this, 'add_shortcode' ) );
         }
 
-        public function add_shortcode(){
-            
+        public function add_shortcode( ){
             ob_start();
             require( MV_TRANSLATIONS_PATH . 'views/mv-translations_shortcode.php' );
-            wp_enqueue_script( 'custom_js' );
-            wp_enqueue_script( 'validate_js' );
+
             return ob_get_clean();
         }
     }
 }
+ 
