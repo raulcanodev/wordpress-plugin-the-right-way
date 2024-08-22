@@ -43,3 +43,8 @@ $results = $wpdb->get_results( $query, ARRAY_A );
         </td>
     </tr> 
 </table>
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
