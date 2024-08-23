@@ -10,6 +10,8 @@ if( ! class_exists( 'MV_Translations_Post_Type' )){
 
             add_action( 'wp_insert_post', array( $this, 'save_post' ), 10, 2 );
             add_action( 'delete_post', array( $this, 'delete_post' ) );
+
+            add_action( 'pre_get_posts', array( $this, 'add_cpt_author' ) );
         }
 
         public function create_post_type(){
@@ -58,6 +60,11 @@ if( ! class_exists( 'MV_Translations_Post_Type' )){
             );
         }
 
+        public function add_cpt_author( $query ){
+            if( is_admin() && $query->is_main_query() && $query->is_author() ){
+                $query->set('post_type', array('mv-translations', 'post') );
+            }
+        }
         public function register_metadata_table(){
             global $wpdb;
             $wpdb->translationmeta = $wpdb->prefix . 'translationmeta';
